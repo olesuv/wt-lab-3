@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/posts", router);
+app.use("/api/posts", router);
 
 app.listen(port, () => {
   console.log(`Server is listening on port http://localhost:${port}`);
