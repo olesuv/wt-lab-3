@@ -1,0 +1,23 @@
+# Ignore node modules
+node_modules/
+
+# Ignore .env files
+.env
+
+# Ignore build files for React (if you're using Create React App)
+*/client/build
+
+# Ignore log files and npm-debug.log
+*/logs/
+*.log
+
+# Ignore environment-specific files
+*/.env.local
+*/.env.development.local
+*/.env.test.local
+*/.env.production.local
+
+# Ignore .DS_Store (macOS system file)
+.DS_Store
+
+*/.vscode/
