@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import Post from "../models/post.js";
 import express from "express";
 
@@ -57,57 +56,47 @@ router.get("/", async (req, res) => {
   }
 });
 
-// TODO: Not working.
 router.get("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
     if (!post) {
-      return res.status(204).json({ error: "No post found." });
+      return res.status(404).json({ error: "Post has been deleted." });
     }
 
     res.status(200).json(post);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Post not found." });
   }
 });
 
-router.delete("/", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
-    const postID = req.query.postID;
-
-    if (!postID) {
-      return res.status(400).json({
-        error: "Empty post ID.",
-      });
-    }
+    const postID = req.params.id;
 
     const deletePost = await Post.findByIdAndDelete(postID);
 
     if (!deletePost) {
-      return res.status(400).json({
-        error: "Post not found.",
-      });
+      return res.status(404).json({ error: "Post has been deleted." });
     }
 
     res.status(200).json(deletePost);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Post not found." });
   }
 });
 
-// TODO: Not working.
 router.put("/:id", async (req, res) => {
   try {
-    const updatePost = await YourModel.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const postID = req.params.id;
+    const updatedData = req.body;
+    const options = { new: true };
 
-    res.json(updatePost);
+    const result = await Post.findByIdAndUpdate(postID, updatedData, options);
+
+    res.send(result);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(400).json({ error: "Post not found." });
   }
 });
 
