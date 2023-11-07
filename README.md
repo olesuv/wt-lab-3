@@ -13,6 +13,8 @@ Current CRUD project using MERN stack with [Vite](https://vitejs.dev/):
 
 ## :computer: Configuration and startup
 
+Installing repo and downloading dependencies:
+
 ```bash
 git clone git@github.com:plxgwalker/wt-lab-3.git
 
@@ -22,14 +24,38 @@ npm ci
 cd client
 npm ci
 
-cd ..
-
 cd server
 npm ci
+```
 
+Creating `.env` files (both client and root dir of project).
+
+```bash
+cd client
+touch .env
+```
+
+```env
+VITE_AXIOS_BASE_URL="http://localhost:3000/api"
+```
+
+```bash
+cd ~
+touch .env
+```
+
+```env
+SERVER_LOCAL_PORT=3000
+DB_CONNECTION="your_mongodb_deployed_server"
+```
+
+To run servers/project:
+
+```bash
+cd server
 npm run server
 
-cd ..
+cd client
 npm run dev
 ```
 
