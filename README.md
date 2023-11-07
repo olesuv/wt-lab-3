@@ -22,6 +22,8 @@ npm ci
 cd client
 npm ci
 
+cd ..
+
 cd server
 npm ci
 
@@ -34,4 +36,5 @@ npm run dev
 ## :iphone: Contact me
 
 :email: [Email](mailto:olegsuv.dev@gmail.com)
+
 :calling: [Telegram](https://t.me/suph0mi3)
