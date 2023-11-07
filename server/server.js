@@ -1,10 +1,13 @@
 import router from "./controllers/post.js";
 import express from "express";
 import db from "./db.js";
+import cors from "cors";
 
 const port = process.env.SERVER_LOCAL_PORT;
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
