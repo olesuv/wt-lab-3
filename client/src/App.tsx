@@ -1,5 +1,6 @@
 import "./css/App.css";
 import PostDescription from "./components/NewPost";
+import LatestPosts from "./components/LatestPosts";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       </div>
       <div className="col-span-full md:col-span-1">
         <PostDescription />
+        <LatestPosts />
       </div>
       <div className="bg-slate-700 collapse">
         what's up dev. it's right column
