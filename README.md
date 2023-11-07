@@ -4,7 +4,7 @@ Web application for posting/deleting/updating without authorization to service.
 
 ## :pencil: Description
 
-Current CRUD project using MERN stack with [Vite]("https://vitejs.dev/"):
+Current CRUD project using MERN stack with [Vite](https://vitejs.dev/):
 
 - MongoDB
 - Express JS
