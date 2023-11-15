@@ -1,44 +1,63 @@
-// import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
+import { useEffect, useState } from "react";
+
+interface IPost {
+  _id: number;
+  title: string;
+  description: string;
+  author: string;
+  uploadDate: Date;
+}
+
+interface TPosts {
+  posts: IPost[];
+}
 
 export default function LatestPosts() {
-  axios.defaults.baseURL = import.meta.env.VITE_AXIOS_BASE_URL;
+  const [posts, setPosts] = useState<TPosts>({ posts: [] });
 
-  function getAllPosts() {
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  async function fetchPosts() {
     try {
-      const response = axios.get("/posts");
-      console.log(response);
+      const response = await axios.get(
+        `${import.meta.env.VITE_AXIOS_BASE_URL}/posts`
+      );
+      const sortedPosts = response.data.sort(
+        (a, b) =>
+          new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime()
+      );
+      setPosts({ posts: sortedPosts });
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching posts:", error);
     }
   }
 
-  getAllPosts();
-
   return (
-    <big>No shit right now</big>
-    // <InfiniteScroll
-    //   dataLength={items.length} //This is important field to render the next data
-    //   next={fetchData}
-    //   hasMore={true}
-    //   loader={<h4>Loading...</h4>}
-    //   endMessage={
-    //     <p style={{ textAlign: "center" }}>
-    //       <b>Yay! You have seen it all</b>
-    //     </p>
-    //   }
-    //   // below props only if you need pull down functionality
-    //   //   refreshFunction={this.refresh}
-    //   pullDownToRefresh
-    //   pullDownToRefreshThreshold={50}
-    //   pullDownToRefreshContent={
-    //     <h3 style={{ textAlign: "center" }}>&#8595; Pull down to refresh</h3>
-    //   }
-    //   releaseToRefreshContent={
-    //     <h3 style={{ textAlign: "center" }}>&#8593; Release to refresh</h3>
-    //   }
-    // >
-    //   {items}
-    // </InfiniteScroll>
+    <div>
+      <h1 className="text-center pb-7 text-3xl sm:text-mdtext-gray-900 text-gray-400 font-semibold">
+        Latest Nerdy Posts
+      </h1>
+      <ul>
+        {posts.posts.map((post) => (
+          <li key={post._id} className="p-2.5">
+            <p className="text-xl dark:bg-slate-800 dark:text-white font-semibold">
+              {post.title}
+            </p>
+            <p className="text-sm dark:bg-slate-800 dark:text-white">
+              {post.description}
+            </p>
+            <p className="text-sm underline dark:bg-slate-800 dark:text-white">
+              {post.author}
+            </p>
+            <p className="text-sm underline dark:bg-slate-800 dark:text-white">
+              {new Date(post.uploadDate).toLocaleDateString("en-GB")}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
