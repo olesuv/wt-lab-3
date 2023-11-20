@@ -41,7 +41,7 @@ export default function PostDescription() {
         className="block w-full p-2.5 text-base text-gray-900 sm:text-md dark:bg-slate-800 dark:text-white !outline-none"
       />
       {error && (
-        <div className="dark:text-white text-sm text-center font-semibold mb-2 p-2.5 bg-rose-600 rounded-lg border-transparent">
+        <div className="w-full dark:text-white text-sm text-center font-semibold mb-2 p-2.5 bg-rose-600 rounded-lg border-transparent">
           {error}
         </div>
       )}
