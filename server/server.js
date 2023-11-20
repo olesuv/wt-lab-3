@@ -3,7 +3,7 @@ import express from "express";
 import db from "./db.js";
 import cors from "cors";
 
-const port = process.env.SERVER_LOCAL_PORT;
+const port = process.env.SERVER_LOCAL_PORT || 3000;
 
 const app = express();
 
