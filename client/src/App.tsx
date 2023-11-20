@@ -1,13 +1,18 @@
 import "./css/App.css";
-import { Key, useState } from "react";
+import { Key, createRef, useState } from "react";
 import PostDescription from "./components/NewPost";
 import LatestPosts from "./components/LatestPosts";
 
 function App() {
   const [updatePosts, setUpdatePosts] = useState<Key | null | undefined>(null);
+  const latestPostsRef = createRef<HTMLDivElement>();
 
   const handleUpdatePosts = () => {
     setUpdatePosts(Date.now());
+
+    if (latestPostsRef.current) {
+      latestPostsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -17,7 +22,9 @@ function App() {
       </div>
       <div className="col-span-full md:col-span-1">
         <PostDescription onUpdatePosts={handleUpdatePosts} />
-        <LatestPosts key={updatePosts} />
+        <div ref={latestPostsRef}>
+          <LatestPosts key={updatePosts} />
+        </div>
       </div>
       <div className="bg-slate-700 collapse">
         what's up dev. it's the right column
