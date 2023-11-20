@@ -4,7 +4,6 @@ import express from "express";
 const router = express.Router();
 
 router.post("/create", async (req, res) => {
-  // TODO: Make errors more friendly
   try {
     const { title, description, author } = req.query;
 
