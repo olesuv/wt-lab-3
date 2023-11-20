@@ -26,7 +26,7 @@ export default function LatestPosts() {
         `${import.meta.env.VITE_AXIOS_BASE_URL}/posts`
       );
       const sortedPosts = response.data.sort(
-        (a, b) =>
+        (a: { uploadDate: string }, b: { uploadDate: string }) =>
           new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime()
       );
       setPosts({ posts: sortedPosts });
