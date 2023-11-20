@@ -1,4 +1,4 @@
-# App for CRUDing anonymous posts
+# [Nerdy Posts]("https://nerdy-posts.vercel.app/") - App for CRUDing anonymous posts
 
 Web application for posting/deleting/updating without authorization to service.
 
