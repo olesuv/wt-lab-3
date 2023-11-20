@@ -1,5 +1,5 @@
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
 
 interface IPost {
   _id: number;

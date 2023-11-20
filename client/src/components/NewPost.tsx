@@ -1,7 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function PostDescription() {
+interface INewPostProps {
+  onUpdatePosts: () => void;
+}
+
+export default function PostDescription({ onUpdatePosts }: INewPostProps) {
   const [error, setError] = useState("");
 
   async function handleCreatePost() {
@@ -16,7 +20,11 @@ export default function PostDescription() {
       .post(`${import.meta.env.VITE_AXIOS_BASE_URL}/posts/create`, null, {
         params: { title, description, author },
       })
-      .then((response) => response.status)
+      .then((response) => {
+        if (response.status === 200) {
+          onUpdatePosts();
+        }
+      })
       .catch((error) => setError(error.response.data.error));
   }
 
