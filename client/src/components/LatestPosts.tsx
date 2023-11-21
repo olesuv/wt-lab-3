@@ -47,22 +47,22 @@ export default function LatestPosts() {
       .catch((error) => console.error(error));
   }
 
-  async function updatePost(postId: number | null, updatedData: IPost) {
-    await axios
-      .put(
-        `${import.meta.env.VITE_AXIOS_BASE_URL}/posts/${postId}`,
-        updatedData
-      )
-      .then(() => {
-        // Update the post in the state
-        setPosts((prevPosts) => ({
-          posts: prevPosts.posts.map((post) =>
-            post._id === postId ? { ...post, ...updatedData } : post
-          ),
-        }));
-      })
-      .catch((error) => console.error(error));
-  }
+  // async function updatePost(postId: number | null, updatedData: IPost) {
+  //   await axios
+  //     .put(
+  //       `${import.meta.env.VITE_AXIOS_BASE_URL}/posts/${postId}`,
+  //       updatedData
+  //     )
+  //     .then(() => {
+  //       // Update the post in the state
+  //       setPosts((prevPosts) => ({
+  //         posts: prevPosts.posts.map((post) =>
+  //           post._id === postId ? { ...post, ...updatedData } : post
+  //         ),
+  //       }));
+  //     })
+  //     .catch((error) => console.error(error));
+  // }
 
   return (
     <div>
