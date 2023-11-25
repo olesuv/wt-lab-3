@@ -149,7 +149,7 @@ export default function LatestPosts() {
               <>
                 <div
                   onClick={() => updatePost(post._id)}
-                  className="rounded-full bg-teal-600/20 border border-teal-600 h-16 w-16"
+                  className="flex justify-center mx-auto rounded-full bg-teal-600/20 border border-teal-600 h-16 w-16"
                 >
                   <p className="text-teal-600 text-center flex items-center justify-center h-full">
                     Update
@@ -160,7 +160,7 @@ export default function LatestPosts() {
               <>
                 <div
                   onClick={() => handleUpdateClick(post._id, post)}
-                  className="rounded-full bg-teal-600/20 border border-teal-600 h-16 w-16"
+                  className="flex justify-center mx-auto rounded-full bg-teal-600/20 border border-teal-600 h-16 w-16"
                 >
                   <p className="text-teal-600 text-center flex items-center justify-center h-full">
                     Update
@@ -168,7 +168,7 @@ export default function LatestPosts() {
                 </div>
                 <div
                   onClick={() => removePost(post._id)}
-                  className="rounded-full bg-rose-600/20 border border-rose-600 h-16 w-16"
+                  className="flex justify-center mx-auto rounded-full bg-rose-600/20 border border-rose-600 h-16 w-16"
                 >
                   <p className="text-rose-600 text-center flex items-center justify-center h-full">
                     Remove
