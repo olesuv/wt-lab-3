@@ -15,6 +15,14 @@ interface TPosts {
 
 export default function LatestPosts() {
   const [posts, setPosts] = useState<TPosts>({ posts: [] });
+  const [editingPost, setEditingPost] = useState<number | null>(null);
+  const [updatedValues, setUpdatedValues] = useState<IPost>({
+    _id: 0,
+    title: "",
+    description: "",
+    author: "",
+    uploadDate: new Date(),
+  });
 
   useEffect(() => {
     fetchPosts();
@@ -39,7 +47,6 @@ export default function LatestPosts() {
     await axios
       .delete(`${import.meta.env.VITE_AXIOS_BASE_URL}/posts/${postId}`)
       .then(() => {
-        // Remove the deleted post from the state
         setPosts((prevPosts) => ({
           posts: prevPosts.posts.filter((post) => post._id !== postId),
         }));
@@ -47,22 +54,34 @@ export default function LatestPosts() {
       .catch((error) => console.error(error));
   }
 
-  // async function updatePost(postId: number | null, updatedData: IPost) {
-  //   await axios
-  //     .put(
-  //       `${import.meta.env.VITE_AXIOS_BASE_URL}/posts/${postId}`,
-  //       updatedData
-  //     )
-  //     .then(() => {
-  //       // Update the post in the state
-  //       setPosts((prevPosts) => ({
-  //         posts: prevPosts.posts.map((post) =>
-  //           post._id === postId ? { ...post, ...updatedData } : post
-  //         ),
-  //       }));
-  //     })
-  //     .catch((error) => console.error(error));
-  // }
+  async function updatePost(postId: number | null) {
+    await axios
+      .put(
+        `${import.meta.env.VITE_AXIOS_BASE_URL}/posts/${postId}`,
+        updatedValues
+      )
+      .then(() => {
+        setPosts((prevPosts) => ({
+          posts: prevPosts.posts.map((post) =>
+            post._id === postId ? { ...post, ...updatedValues } : post
+          ),
+        }));
+        setEditingPost(null);
+        setUpdatedValues({
+          _id: 0,
+          title: "",
+          description: "",
+          author: "",
+          uploadDate: new Date(),
+        });
+      })
+      .catch((error) => console.error(error));
+  }
+
+  const handleUpdateClick = (postId: number, post: IPost) => {
+    setEditingPost(postId);
+    setUpdatedValues(post);
+  };
 
   return (
     <div>
@@ -73,42 +92,90 @@ export default function LatestPosts() {
         <div key={post._id}>
           <ul>
             <li className="p-2.5">
-              <p className="text-xl dark:bg-slate-800 dark:text-white font-semibold">
-                {post.title}
-              </p>
-              <p className="text-sm dark:bg-slate-800 dark:text-white">
-                {post.description}
-              </p>
-              <p className="text-sm underline dark:bg-slate-800 dark:text-white">
-                {post.author}
-              </p>
-              <p className="text-sm underline dark:bg-slate-800 dark:text-white">
-                {new Date(post.uploadDate).toLocaleDateString("en-GB")}
-              </p>
+              {editingPost === post._id ? (
+                <>
+                  <input
+                    value={updatedValues.title}
+                    onChange={(e) =>
+                      setUpdatedValues({
+                        ...updatedValues,
+                        title: e.target.value,
+                      })
+                    }
+                    className="block w-full text-xl text-gray-900 sm:text-md dark:bg-slate-800 dark:text-white !outline-none font-semibold"
+                  />
+                  <textarea
+                    value={updatedValues.description}
+                    onChange={(e) =>
+                      setUpdatedValues({
+                        ...updatedValues,
+                        description: e.target.value,
+                      })
+                    }
+                    className="block resize-none p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white !outline-none"
+                  />
+                  <input
+                    value={updatedValues.author}
+                    onChange={(e) =>
+                      setUpdatedValues({
+                        ...updatedValues,
+                        author: e.target.value,
+                      })
+                    }
+                    className="block w-full text-sm text-gray-900 dark:bg-slate-800 dark:text-white !outline-none"
+                  />
+                </>
+              ) : (
+                <>
+                  <p className="text-xl dark:bg-slate-800 dark:text-white font-semibold">
+                    {post.title}
+                  </p>
+                  <p className="text-sm dark:bg-slate-800 dark:text-white">
+                    {post.description}
+                  </p>
+                  <p className="text-sm underline dark:bg-slate-800 dark:text-white">
+                    {post.author}
+                  </p>
+                  <p className="text-sm underline dark:bg-slate-800 dark:text-white">
+                    {new Date(post.uploadDate).toLocaleDateString("en-GB")}
+                  </p>
+                </>
+              )}
             </li>
           </ul>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="relative flex items-center justify-center">
-              <div
-                // onClick={() => updatePost(post._id, { title: "loh" })}
-                className="rounded-full bg-teal-600/20 border border-teal-600 h-16 w-16"
-              >
-                <p className="text-teal-600 text-center flex items-center justify-center h-full">
-                  Update
-                </p>
-              </div>
-            </div>
-            <div className="relative flex items-center justify-center">
-              <div
-                onClick={() => removePost(post._id)}
-                className="rounded-full bg-rose-600/20 border border-rose-600 h-16 w-16"
-              >
-                <p className="text-rose-600 text-center flex items-center justify-center h-full">
-                  Remove
-                </p>
-              </div>
-            </div>
+            {editingPost === post._id ? (
+              <>
+                <div
+                  onClick={() => updatePost(post._id)}
+                  className="rounded-full bg-teal-600/20 border border-teal-600 h-16 w-16"
+                >
+                  <p className="text-teal-600 text-center flex items-center justify-center h-full">
+                    Update
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div
+                  onClick={() => handleUpdateClick(post._id, post)}
+                  className="rounded-full bg-teal-600/20 border border-teal-600 h-16 w-16"
+                >
+                  <p className="text-teal-600 text-center flex items-center justify-center h-full">
+                    Update
+                  </p>
+                </div>
+                <div
+                  onClick={() => removePost(post._id)}
+                  className="rounded-full bg-rose-600/20 border border-rose-600 h-16 w-16"
+                >
+                  <p className="text-rose-600 text-center flex items-center justify-center h-full">
+                    Remove
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       ))}
