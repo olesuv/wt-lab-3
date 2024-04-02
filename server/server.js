@@ -1,7 +1,9 @@
 import router from "./controllers/post.js";
 import express from "express";
-import db from "./db.js";
+import Database from "./db.js";
 import cors from "cors";
+
+const db = new Database();
 
 const port = process.env.SERVER_LOCAL_PORT || 3000;
 

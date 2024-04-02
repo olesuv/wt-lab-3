@@ -6,16 +6,12 @@ class Database {
       const { connect, connection } = mongoose;
       const mongoDB = process.env.DB_CONNECTION;
 
-      connect(mongoDB, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
-
+      connect(mongoDB);
       this.db = connection;
 
       this.db.on("error", console.error.bind(console, "connection error:"));
       this.db.once("open", () => {
-        console.log("Connected to MongoDB");
+        console.log("connected to mongodb");
       });
 
       Database.instance = this;
@@ -25,7 +21,4 @@ class Database {
   }
 }
 
-const singletonDatabase = new Database();
-
-export default singletonDatabase.db;
-
+export default Database;
